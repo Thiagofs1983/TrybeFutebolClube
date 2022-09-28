@@ -1,4 +1,4 @@
-class ValidationError extends Error {
+class HttpValidateError extends Error {
   status: number;
 
   constructor(status: number, message: string) {
@@ -7,4 +7,4 @@ class ValidationError extends Error {
   }
 }
 
-export default ValidationError;
+export default HttpValidateError;
