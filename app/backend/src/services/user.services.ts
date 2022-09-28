@@ -19,3 +19,5 @@ class UserServices {
     return token;
   }
 }
+
+export default UserServices;
