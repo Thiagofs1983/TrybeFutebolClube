@@ -1,4 +1,4 @@
-import ValidationError from '../errors/validation.erros';
+import HttpValidateError from '../errors/validation.erros';
 
 export class Password {
   private _value: string;
@@ -11,8 +11,8 @@ export class Password {
   private validatePassword() {
     const isPasswordValid = this._value;
   
-    if(isPasswordValid.length <= 6) {
-      throw new ValidationError(400, "INVALID_PASSWORD");
+    if(!isPasswordValid) {
+      throw new HttpValidateError(400, 'All fields must be filled');
     }
   }
 
