@@ -17,3 +17,12 @@ export interface IUser {
 export interface IRequest extends Request {
   email?: string | JwtPayload;
 }
+
+export interface IMatches {
+  id?: number,
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+  inProgress?: boolean,
+}
