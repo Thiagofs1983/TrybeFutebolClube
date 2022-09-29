@@ -10,6 +10,11 @@ class MatchesControllers {
     const matches = await this.matche.matchesInProgress(progress);
     res.status(200).json(matches);
   }
+
+  public createNewMatche = async (req: Request, res: Response): Promise<void> => {
+    const newMach = await this.matche.createNewMatche(req.body);
+    res.status(201).json(newMach);
+  }
 }
 
 export default MatchesControllers
