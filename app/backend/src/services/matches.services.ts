@@ -1,6 +1,6 @@
 import Team from "../database/models/team";
 import Matche from "../database/models/matche";
-import { IMatches } from "../interfaces";
+import { IMatches, ISimpleMatches } from "../interfaces";
 import HttpValidateError from "../errors/validation.erros";
 import Matches from "../entities/Matches";
 import { Op } from "sequelize";
@@ -42,6 +42,14 @@ class MatchesServices {
       { where: { id } }
     );
     if (matche === 0) throw new HttpValidateError(400, 'It is not possible to update a match')
+  }
+
+  public async updateMatches(date: ISimpleMatches, id: number): Promise<void> {
+    const [match] = await this.matche.update(
+      { awayTeamGoals: date.awayTeamGoals, homeTeamGoals: date.homeTeamGoals },
+      { where: { id } }
+    );
+    if (match === 0) throw new HttpValidateError(400, 'It is not possible to update a match')
   }
 }
 
