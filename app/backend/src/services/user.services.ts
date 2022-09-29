@@ -11,15 +11,13 @@ class UserServices {
 
   public async loginService(login: Ilogin): Promise<string> {
     const { email, password } = login;
-    const emailValidate = new Email(email);
-    console.log(emailValidate);
-    
+    const emailValidate = new Email(email).value;
     const passwordValidate = new Password(password).value
     const user = await this.user.findOne({ where: { email } })
-    /* if (!user || !bcrypt.compareSync(password, user.password)) {
-      throw new HttpValidateError(400, 'Usuário inválido');
-    } */
-    const token = generateToken(email);
+    if (!user) {
+      throw new HttpValidateError(401, 'Incorrect email or password');
+    }
+    const token = generateToken(emailValidate);
     return token;
   }
 }
