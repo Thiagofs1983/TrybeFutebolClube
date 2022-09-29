@@ -18,10 +18,6 @@ Team.init({
     type: STRING,
     allowNull: false,
   },
-  role: {
-    type: STRING,
-    allowNull: false,
-  },
   // ... Campos
 }, {
   // ... Outras configs
