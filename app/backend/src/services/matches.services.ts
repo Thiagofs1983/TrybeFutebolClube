@@ -4,7 +4,7 @@ import Matche from "../database/models/matche";
 class MatchesServices {
   matche = Matche;
 
-  public async getAll() {
+  public async getAll(): Promise<Matche[]> {
     const matches = await this.matche.findAll({
       include: [
         { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
