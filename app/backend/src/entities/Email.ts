@@ -4,8 +4,8 @@ export class Email {
   private _value: string;
 
   constructor(email: string) {
-    this.validateEmail();
     this._value = email;
+    this.validateEmail();
   }
 
   private validateEmail() {
