@@ -17,7 +17,7 @@ const tokenValidation = (req: IRequest, res: Response, next: NextFunction) => {
     req.email = payload as unknown as IRequest;
     next();
   } catch (error) {
-    throw new HttpValidateError(401, 'Expired or invalid token');
+    throw new HttpValidateError(401, 'Token must be a valid token');
   }
 };
 
