@@ -10,9 +10,13 @@ export class Email {
 
   private validateEmail() {
     const email = this._value;
+    const emailRegex = /\S+@\S+\.\S+/;
   
     if(!email) {
       throw new HttpValidateError(400, 'All fields must be filled');
+    }
+    if(!emailRegex.test(email)) {
+      throw new HttpValidateError(400, '"email" must be a valid email')
     }
   }
 
