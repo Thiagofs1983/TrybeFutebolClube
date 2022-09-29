@@ -14,7 +14,7 @@ class UserServices {
     const emailValidate = new Email(email).value;
     const passwordValidate = new Password(password).value
     const user = await this.user.findOne({ where: { email } })
-    if (!user) {
+    if (!user || !bcrypt.compareSync(passwordValidate, user.password)) {
       throw new HttpValidateError(401, 'Incorrect email or password');
     }
     const token = generateToken(emailValidate);
