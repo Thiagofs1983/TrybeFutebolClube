@@ -1,4 +1,5 @@
 import { INTEGER, BOOLEAN, Model } from 'sequelize';
+import Team from './team';
 import db from '.';
 // import OtherModel from './OtherModel';
 
@@ -55,7 +56,7 @@ Matche.init({
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-// Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
+Matche.hasMany(Team, { foreignKey: 'id', as: 'teams' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
 export default Matche;
