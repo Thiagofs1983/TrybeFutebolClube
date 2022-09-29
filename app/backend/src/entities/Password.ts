@@ -15,6 +15,9 @@ export class Password {
     if(!isPasswordValid) {
       throw new HttpValidateError(400, 'All fields must be filled');
     }
+    if(isPasswordValid.length <= 6) {
+      throw new HttpValidateError(400, '"password" length must be at least 7 characters long')
+    }
   }
 
   get value(): string {
