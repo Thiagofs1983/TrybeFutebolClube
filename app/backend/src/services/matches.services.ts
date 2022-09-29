@@ -7,6 +7,16 @@ import Matches from "../entities/Matches";
 class MatchesServices {
   matche = Matche;
 
+  public async getAll() {
+    const matches = await this.matche.findAll({
+      include: [
+        { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
+        { model: Team, as: 'teamAway', attributes: { exclude: ['id'] } }
+      ]
+    });
+    return matches;
+  }
+
   public async matchesInProgress(inProgress: boolean): Promise<Matche[]> {
     const matches = await this.matche.findAll({ where: { inProgress }, include: [
       { model: Team, as: 'teamHome', attributes: { exclude: ['id'] } },
