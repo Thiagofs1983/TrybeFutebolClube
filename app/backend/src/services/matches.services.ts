@@ -3,9 +3,11 @@ import Matche from "../database/models/matche";
 import { IMatches } from "../interfaces";
 import HttpValidateError from "../errors/validation.erros";
 import Matches from "../entities/Matches";
+import { Op } from "sequelize";
 
 class MatchesServices {
   matche = Matche;
+  team = Team;
 
   public async getAll() {
     const matches = await this.matche.findAll({
@@ -27,6 +29,9 @@ class MatchesServices {
 
   public async createNewMatche(matche: IMatches): Promise<Matche> {
     const match = new Matches(matche).match
+    const teamExists = await this.team.findAll({ where: { [Op.or]: [{ id: match.homeTeam }, { id: match.awayTeam }] } })
+    if (teamExists.length !== 2) throw new HttpValidateError(404, 'There is no team with such id!');
+    
     const newMatche = await this.matche.create({...match, inProgress: true});
     return newMatche;
   }
