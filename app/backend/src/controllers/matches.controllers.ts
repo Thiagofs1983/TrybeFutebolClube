@@ -21,10 +21,13 @@ class MatchesControllers {
   }
 
   public updateInProgress = async (req: Request, res: Response): Promise<void> => {
-    console.log(req.params);
-    
     await this.matche.updateInProgress(Number(req.params.id));
     res.status(200).json({ message: 'Finished' });
+  }
+
+  public updateMaches = async (req: Request, res: Response): Promise<void> => {
+    await this.matche.updateMatches(req.body, Number(req.params.id));
+    res.status(200).json({ message: 'Finished' })
   }
 }
 
