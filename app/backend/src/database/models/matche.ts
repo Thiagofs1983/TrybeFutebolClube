@@ -56,7 +56,7 @@ Matche.init({
 // OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-Matche.hasMany(Team, { foreignKey: 'id', as: 'teams' });
-// Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
+// Matche.hasMany(Team, { foreignKey: 'id', as: 'teamHome' });
+// Matche.hasMany(Team, { foreignKey: 'id', as: 'teamAway' });
 
 export default Matche;
