@@ -12,5 +12,6 @@ router.post('/login', userController.loginController);
 router.get('/login/validate', tokenValidation, userController.getUser);
 
 router.get('/teams', teamsController.getAll);
+router.get('/teams/:id', teamsController.getById);
 
 export default router;
