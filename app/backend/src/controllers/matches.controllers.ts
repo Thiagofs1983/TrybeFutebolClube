@@ -15,6 +15,13 @@ class MatchesControllers {
     const newMach = await this.matche.createNewMatche(req.body);
     res.status(201).json(newMach);
   }
+
+  public updateInProgress = async (req: Request, res: Response): Promise<void> => {
+    console.log(req.params);
+    
+    await this.matche.updateInProgress(Number(req.params.id));
+    res.status(200).json({ message: 'Finished' });
+  }
 }
 
 export default MatchesControllers

@@ -18,5 +18,6 @@ router.get('/teams/:id', teamsController.getById);
 
 router.get('/matches', matchesController.matchesInProgress);
 router.post('/matches', tokenValidation, matchesController.createNewMatche);
+router.patch('/matches/:id/finish', matchesController.updateInProgress);
 
 export default router;
