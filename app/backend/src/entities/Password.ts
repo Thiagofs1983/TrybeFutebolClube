@@ -10,7 +10,6 @@ export class Password {
 
   public validatePassword() {
     const isPasswordValid = this._value;
-    console.log(isPasswordValid);
     
     if(!isPasswordValid) {
       throw new HttpValidateError(400, 'All fields must be filled');
