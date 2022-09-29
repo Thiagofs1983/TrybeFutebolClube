@@ -1,6 +1,7 @@
 import Team from "../database/models/team";
 import Matche from "../database/models/matche";
 import { IMatches } from "../interfaces";
+import HttpValidateError from "../errors/validation.erros";
 
 class MatchesServices {
   matche = Matche;
@@ -13,9 +14,17 @@ class MatchesServices {
     return matches;
   }
 
-  public async createNewMatche(matche: IMatches) {
+  public async createNewMatche(matche: IMatches): Promise<Matche> {
     const newMatche = await this.matche.create({...matche, inProgress: true});
     return newMatche;
+  }
+
+  public async updateInProgress(id: number): Promise<void> {
+    const [matche] = await this.matche.update(
+      { inProgress: false},
+      { where: { id } }
+    );
+    if (matche === 0) throw new HttpValidateError(400, 'It is not possible to update a match')
   }
 }
 
