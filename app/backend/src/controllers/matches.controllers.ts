@@ -4,9 +4,11 @@ import MatchesServices from "../services/matches.services";
 class MatchesControllers {
   constructor(private matche = new MatchesServices()) { };
 
-  public getAll = async (req: Request, res: Response): Promise<void> => {
-    const mathes = await this.matche.getAll();
-    res.status(200).json(mathes);
+  public matchesInProgress = async (req: Request, res: Response): Promise<void> => {
+    const { inProgress } = req.query;
+    const progress = (inProgress == 'true');
+    const matches = await this.matche.matchesInProgress(progress);
+    res.status(200).json(matches);
   }
 }
 

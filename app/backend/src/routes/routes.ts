@@ -16,6 +16,6 @@ router.get('/login/validate', tokenValidation, userController.getUser);
 router.get('/teams', teamsController.getAll);
 router.get('/teams/:id', teamsController.getById);
 
-router.get('/matches', matchesController.getAll);
+router.get('/matches', matchesController.matchesInProgress);
 
 export default router;
