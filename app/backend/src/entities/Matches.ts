@@ -1,5 +1,5 @@
-import HttpValidateError from "../errors/validation.erros";
-import { IMatches } from "../interfaces";
+import HttpValidateError from '../errors/validation.erros';
+import { IMatches } from '../interfaces';
 
 class Matches {
   private _match: IMatches;

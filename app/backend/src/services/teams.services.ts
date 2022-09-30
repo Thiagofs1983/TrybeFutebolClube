@@ -1,5 +1,5 @@
-import HttpValidateError from "../errors/validation.erros";
-import Team from "../database/models/team";
+import HttpValidateError from '../errors/validation.erros';
+import Team from '../database/models/team';
 
 class TeamsServices {
   team = Team;
@@ -11,7 +11,7 @@ class TeamsServices {
 
   public async getById(id: number): Promise<Team> {
     const team = await this.team.findByPk(id);
-    if (!team) throw new HttpValidateError(400, 'Team not found')
+    if (!team) throw new HttpValidateError(400, 'Team not found');
     return team;
   }
 }

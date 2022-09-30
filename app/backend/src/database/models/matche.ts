@@ -1,5 +1,4 @@
 import { INTEGER, BOOLEAN, Model } from 'sequelize';
-import Team from './team';
 import db from '.';
 // import OtherModel from './OtherModel';
 
@@ -49,7 +48,7 @@ Matche.init({
 });
 
 /**
-  * `Workaround` para aplicar as associations em TS: 
+  * `Workaround` para aplicar as associations em TS:
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
