@@ -36,21 +36,37 @@ const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcn
 
 describe('teste da rota /login', () => {
   describe('POST', () => {
-
-    before(() => {
-      Sinon.stub(User, 'findOne').resolves(mockUser as User)
-      Sinon.stub(bcrypt, 'compareSync').returns(true)
-      Sinon.stub(jwt, 'sign').returns(tokenString as any);
+    describe('Caso haja sucesso', () => {
+      before(() => {
+        Sinon.stub(User, 'findOne').resolves(mockUser as User)
+        Sinon.stub(bcrypt, 'compareSync').returns(true)
+        Sinon.stub(jwt, 'sign').returns(tokenString as any);
+      });
+  
+      after(() => {
+        Sinon.restore();
+      })
+  
+      it('Retorna um token caso os dados sejam válidos', async () => {
+        const response = await chai.request(app).post('/login').send(reqLogin);
+        expect(response.status).to.equal(200);
+        expect(response.body).to.deep.equal(token);
+      });
     });
+    describe('Caso não haja sucesso', () => {
+      before(() => {
+        Sinon.stub(User, 'findOne').resolves(null);
+        Sinon.stub(bcrypt, 'compareSync').returns(false);
+      });
+      after(() => {
+        Sinon.restore();
+      })
 
-    after(() => {
-      Sinon.restore();
-    })
-
-    it('Retorna um token caso os dados sejam válidos', async () => {
-      const response = await chai.request(app).post('/login').send(reqLogin);
-      expect(response.status).to.equal(200);
-      expect(response.body).to.deep.equal(token);
+      it('Retorna um erro com status 401 e mensagem "Incorrect email or password"', async () => {
+        const response = await chai.request(app).post('/login').send({ email: 'teste@teste.com', password: 'teste123' });
+        expect(response.status).to.equal(401);
+        expect(response.body).to.deep.equal({ message: 'Incorrect email or password' });
+      });
     });
   });
 });
