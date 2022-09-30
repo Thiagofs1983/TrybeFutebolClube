@@ -8,7 +8,7 @@ export default class Password {
     this.validatePassword();
   }
 
-  public validatePassword() {
+  private validatePassword() {
     const isPasswordValid = this._value;
 
     if (!isPasswordValid) {
