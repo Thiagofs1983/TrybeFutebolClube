@@ -1,5 +1,7 @@
 import * as Sinon from 'sinon';
 import * as chai from 'chai';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -14,8 +16,8 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 const reqLogin = {
-  "email": "users@user.com",
-  "password": "1234567"
+  email: "users@user.com",
+  password: "1234567"
 }
 
 const mockUser = {
@@ -30,11 +32,15 @@ const token = {
   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ"
 }
 
+const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
+
 describe('teste da rota /login', () => {
   describe('POST', () => {
 
     before(() => {
       Sinon.stub(User, 'findOne').resolves(mockUser as User)
+      Sinon.stub(bcrypt, 'compareSync').returns(true)
+      Sinon.stub(jwt, 'sign').returns(tokenString as any);
     });
 
     after(() => {
