@@ -67,6 +67,24 @@ describe('teste da rota /login', () => {
         expect(response.status).to.equal(401);
         expect(response.body).to.deep.equal({ message: 'Incorrect email or password' });
       });
+
+      it('Caso não informe email, retorna um erro com status 400 e mensagem "All fields must be filled"', async () => {
+        const response = await chai.request(app).post('/login').send({ password: 'teste123' });
+        expect(response.status).to.equal(400);
+        expect(response.body).to.deep.equal({ message: 'All fields must be filled' });
+      });
+
+      it('Caso não informe password, retorna um erro com status 400 e mensagem "All fields must be filled"', async () => {
+        const response = await chai.request(app).post('/login').send({ email: 'teste@teste.com' });
+        expect(response.status).to.equal(400);
+        expect(response.body).to.deep.equal({ message: 'All fields must be filled' });
+      });
+
+      it('Caso password seja <= 6 caracteres, retorna um erro com status 400 e mensagem ""password" length must be at least 7 characters long"', async () => {
+        const response = await chai.request(app).post('/login').send({ email: 'teste@teste.com', password: 'teste' });
+        expect(response.status).to.equal(400);
+        expect(response.body).to.deep.equal({ message: '"password" length must be at least 7 characters long' });
+      });
     });
   });
 });
