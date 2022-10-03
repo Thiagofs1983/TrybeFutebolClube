@@ -29,3 +29,16 @@ export interface IMatches extends ISimpleMatches {
   awayTeam: number,
   inProgress?: boolean,
 }
+
+export interface IStatistic {
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: string,
+}
