@@ -249,4 +249,26 @@ describe('teste da rota /matches', () => {
       });
     });
   });
+  
+  describe('PATCH', () => {
+    describe('Atualiza status da partida', () => {
+      describe('Caso haja sucesso', () => {
+        before(() => {
+          Sinon.stub(Matche, 'update').resolves([ 1, [new Matche] ])
+        });
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem "Finished" caso a atualização seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50/finish');
+          expect(response.body).to.deep.equal({ message: 'Finished' });
+        });
+        it('Retorna o status 200 caso a atualização seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50/finish');
+          expect(response.status).to.equal(200);
+        });
+      });
+    });
+  });
 });
