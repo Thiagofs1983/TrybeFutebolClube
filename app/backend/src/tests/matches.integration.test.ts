@@ -127,6 +127,11 @@ const mockNonexistentTeam = {
   inProgress: true,
 }
 
+const mockUpdate = {
+  homeTeamGoals: 3,
+  awayTeamGoals: 1
+}
+
 const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /matches', () => {
@@ -286,7 +291,45 @@ describe('teste da rota /matches', () => {
           const response = await chai.request(app).patch('/matches/50/finish');
           expect(response.status).to.equal(400);
         });
-      })
+      });
+    });
+
+    describe('Atualiza o numero de gols dos times', () => {
+      describe('Caso de atualização bem sucedida', () => {
+        before(() => {
+          Sinon.stub(Matche, 'update').resolves([ 1, [new Matche] ]);
+        });
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem "Finished" caso a atualização seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50').send(mockUpdate);
+          expect(response.body).to.deep.equal({ message: 'Finished' });
+        });
+        it('Retorna o status 200 caso a atualização seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50').send(mockUpdate);
+          expect(response.status).to.equal(200);
+        });
+      });
+
+      describe('Caso NÃO haja sucesso', () => {
+        before(() => {
+          Sinon.stub(Matche, 'update').resolves([ 0, [new Matche] ])
+        });
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem "It is not possible to update a match" caso a atualização NÃO seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50');
+          expect(response.body).to.deep.equal({ message: 'It is not possible to update a match' });
+        });
+        it('Retorna o status 400 caso a atualização NÃO seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50');
+          expect(response.status).to.equal(400);
+        });
+      });
     });
   });
 });
