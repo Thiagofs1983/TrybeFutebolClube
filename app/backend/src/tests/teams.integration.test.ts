@@ -43,8 +43,11 @@ describe('teste da rota /teams', () => {
   
       it('Retorna todos os times cadastrados no BD', async () => {
         const response = await chai.request(app).get('/teams');
-        expect(response.status).to.equal(200);
         expect(response.body).to.deep.equal(mockTeams);
+      });
+      it('Retorna status 200', async () => {
+        const response = await chai.request(app).get('/teams');
+        expect(response.status).to.equal(200);
       });
     });
 
@@ -60,10 +63,32 @@ describe('teste da rota /teams', () => {
 
         it('Retorna o time conforme id passado pela URL', async () => {
           const response = await chai.request(app).get('/teams/1');
-          expect(response.status).to.equal(200);
           expect(response.body).to.deep.equal(mockTeams[0]);
         });
+        it('Retorna o status 200', async () => {
+          const response = await chai.request(app).get('/teams/1');
+          expect(response.status).to.equal(200);
+        });
       });
+
+      describe('Caso NÃO haja sucesso na chamada', () => {
+        before(() => {
+          Sinon.stub(Team, 'findByPk').resolves(null);
+        });
+
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem de erro "Team not found" caso não encontre nenhum time', async () => {
+          const response = await chai.request(app).get('/teams/500');
+          expect(response.body).to.deep.equal({ message: 'Team not found'});
+        });
+        it('Retorna o status 400', async () => {
+          const response = await chai.request(app).get('/teams/500');
+          expect(response.status).to.equal(400);
+        });
+      })
     });
   });
 });
