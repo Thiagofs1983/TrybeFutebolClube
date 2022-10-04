@@ -9,6 +9,9 @@ import Matche from '../database/models/matche';
 // import { IUser } from '../interfaces'
 
 import { Response } from 'superagent';
+import tokenValidation from '../middlewares/auth';
+import { request } from 'express';
+import Team from '../database/models/team';
 
 chai.use(chaiHttp);
 
@@ -44,7 +47,7 @@ const mockMatches = [
       teamName: "Santos"
     }
   },
-]
+];
 
 const mockMatchesFinsh = [
   {
@@ -75,7 +78,37 @@ const mockMatchesFinsh = [
       teamName: "Santos"
     }
   },
+];
+
+const mockSendNewMatch = {
+  homeTeam: 16,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+  inProgress: true 
+};
+
+const mockNewMatch = {
+  id: 1,
+  homeTeam: 16,
+  homeTeamGoals: 1,
+  awayTeam: 8,
+  awayTeamGoals: 1,
+  inProgress: true,
+}
+
+const mockTeams = [
+  {
+    id: 1,
+    teamName: "Atletico Mineiro",
+  },
+  {
+    id: 2,
+    teamName: "Qualquer outro",
+  },
 ]
+
+const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /matches', () => {
   describe('GET', () => {
@@ -100,7 +133,7 @@ describe('teste da rota /matches', () => {
 
     describe('Busca todos os jogos que já finalizaram', () => {
       before(() => {
-        Sinon.stub(Matche, 'findAll').resolves(mockMatchesFinsh as any)
+        Sinon.stub(Matche, 'findAll').resolves(mockMatchesFinsh as any);
       });
   
       after(() => {
@@ -114,6 +147,52 @@ describe('teste da rota /matches', () => {
       it('Retorna o status 200', async () => {
         const response = await chai.request(app).get('/matches?inProgress=false');
         expect(response.status).to.equal(200);
+      });
+    });
+  });
+
+  describe('POST', () => {
+    describe('Cria um novo jogo', () => {
+      /* describe('Caso haja sucesso', () => {
+        before(() => {
+          // Sinon.stub(jwt, 'verify').resolves(true);
+          Sinon.stub(Team, 'findAll').resolves(mockTeams as Team[]);
+          Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
+        });
+    
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna o novo jogo cadastrado no BD', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', tokenString );
+          expect(response.body).to.deep.equal(mockNewMatch);
+        });
+        it('Retorna o status 201', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', tokenString );
+          expect(response.status).to.equal(201);
+        });
+      }); */
+
+      describe('Caso NÂO haja sucesso', () => {
+        before(() => {
+          // Sinon.stub(jwt, 'verify').resolves(true);
+          Sinon.stub(Team, 'findAll').resolves(mockTeams as Team[]);
+          Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
+        });
+    
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem de erro "Token not found"', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
+          expect(response.body).to.deep.equal({ message: 'Token not found' });
+        });
+        it('Retorna o status 201', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
+          expect(response.status).to.equal(401);
+        });
       });
     });
   });
