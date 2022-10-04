@@ -269,6 +269,24 @@ describe('teste da rota /matches', () => {
           expect(response.status).to.equal(200);
         });
       });
+      
+      describe('Caso NÃO haja sucesso', () => {
+        before(() => {
+          Sinon.stub(Matche, 'update').resolves([ 0, [new Matche] ])
+        });
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna a mensagem "It is not possible to update a match" caso a atualização NÃO seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50/finish');
+          expect(response.body).to.deep.equal({ message: 'It is not possible to update a match' });
+        });
+        it('Retorna o status 400 caso a atualização NÃO seja bem sucedida', async () => {
+          const response = await chai.request(app).patch('/matches/50/finish');
+          expect(response.status).to.equal(400);
+        });
+      })
     });
   });
 });
