@@ -47,5 +47,23 @@ describe('teste da rota /teams', () => {
         expect(response.body).to.deep.equal(mockTeams);
       });
     });
+
+    describe('GET BY ID', () => {
+      describe('Caso haja sucesso', () => {
+        before(() => {
+          Sinon.stub(Team, 'findByPk').resolves(mockTeams[0] as Team);
+        });
+        
+        after(() => {
+          Sinon.restore();
+        });
+
+        it('Retorna o time conforme id passado pela URL', async () => {
+          const response = await chai.request(app).get('/teams/1');
+          expect(response.status).to.equal(200);
+          expect(response.body).to.deep.equal(mockTeams[0]);
+        });
+      });
+    });
   });
 });
