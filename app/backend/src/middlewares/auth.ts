@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { IRequest } from '../interfaces';
 import HttpValidateError from '../errors/validation.erros';
+import 'dotenv/config';
 
 const SECRET = process.env.JWT_SECRET;
 

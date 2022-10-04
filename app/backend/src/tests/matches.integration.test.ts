@@ -12,6 +12,7 @@ import { Response } from 'superagent';
 import tokenValidation from '../middlewares/auth';
 import { request } from 'express';
 import Team from '../database/models/team';
+import { error } from 'console';
 
 chai.use(chaiHttp);
 
@@ -108,7 +109,25 @@ const mockTeams = [
   },
 ]
 
-const tokenString = 'yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
+const mockEqualTeams = {
+  id: 1,
+  homeTeam: 1,
+  homeTeamGoals: 1,
+  awayTeam: 1,
+  awayTeamGoals: 1,
+  inProgress: true,
+}
+
+const mockNonexistentTeam = {
+  id: 1,
+  homeTeam: 1,
+  homeTeamGoals: 1111,
+  awayTeam: 13,
+  awayTeamGoals: 1,
+  inProgress: true,
+}
+
+const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /matches', () => {
   describe('GET', () => {
@@ -153,9 +172,8 @@ describe('teste da rota /matches', () => {
 
   describe('POST', () => {
     describe('Cria um novo jogo', () => {
-      /* describe('Caso haja sucesso', () => {
+      describe('Caso haja sucesso', () => {
         before(() => {
-          // Sinon.stub(jwt, 'verify').resolves(true);
           Sinon.stub(Team, 'findAll').resolves(mockTeams as Team[]);
           Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
         });
@@ -172,35 +190,61 @@ describe('teste da rota /matches', () => {
           const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', tokenString );
           expect(response.status).to.equal(201);
         });
-      }); */
+      });
 
-      describe('Caso NÂO haja sucesso', () => {
-        before(() => {
-          Sinon.stub(jwt, 'sign').returns(tokenString as any);
-          Sinon.stub(jwt, 'verify').rejects();
-          Sinon.stub(Team, 'findAll').resolves(mockTeams as Team[]);
-          Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
+      describe('Caso NÃO haja sucesso', () => {
+        describe('Casos de erro de token', () => {
+          before(() => {
+            Sinon.stub(jwt, 'verify').throws();
+          });
+      
+          after(() => {
+            Sinon.restore();
+          });
+  
+          it('Retorna a mensagem de erro "Token not found" caso não haja token', async () => {
+            const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
+            expect(response.body).to.deep.equal({ message: 'Token not found' });
+          });
+          it('Retorna o status 401 caso não haja um token', async () => {
+            const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
+            expect(response.status).to.equal(401);
+          });
+          it('Retorna a mensagem de erro "Token must be a valid token" caso o token não seja válido', async () => {
+            const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
+            expect(response.body).to.deep.equal({ message: 'Token must be a valid token' });
+          });
+          it('Retorna o status 401 caso o token não seja válido', async () => {
+            const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
+            expect(response.status).to.equal(401);
+          });
         });
-    
-        after(() => {
-          Sinon.restore();
-        });
+        
+        describe('Casos de Erro em Services', () => {
+          before(() => {
+            Sinon.stub(Team, 'findAll').resolves([{ id: 1, teamName: 'Atletico'}] as Team[]);
+            Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
+          });
+          after(() => {
+            Sinon.restore();
+          });
 
-        it('Retorna a mensagem de erro "Token not found" caso não haja token', async () => {
-          const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
-          expect(response.body).to.deep.equal({ message: 'Token not found' });
-        });
-        it('Retorna o status 401 caso não haja um token', async () => {
-          const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
-          expect(response.status).to.equal(401);
-        });
-        it('Retorna a mensagem de erro "Token must be a valid token" caso o token não seja válido', async () => {
-          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
-          expect(response.body).to.deep.equal({ message: 'Token must be a valid token' });
-        });
-        it('Retorna o status 401 caso o token não seja válido', async () => {
-          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
-          expect(response.status).to.equal(401);
+          it('Retorna a mensagem de erro "It is not possible to create a match with two equal teams" caso se tente criar um novo jogo com times iguais', async () => {
+            const response = await chai.request(app).post('/matches').send(mockEqualTeams).set('authorization', tokenString);
+            expect(response.body).to.deep.equal({ message: 'It is not possible to create a match with two equal teams' });
+          });
+          it('Retorna o status 401 caso se tente criar um novo jogo com times iguais', async () => {
+            const response = await chai.request(app).post('/matches').send(mockEqualTeams).set('authorization', tokenString);
+            expect(response.status).to.equal(401);
+          });
+          it('Retorna a mensagem de erro "There is no team with such id!" caso id do time seja inexistente', async () => {
+            const response = await chai.request(app).post('/matches').send(mockNonexistentTeam).set('authorization', tokenString);
+            expect(response.body).to.deep.equal({ message: 'There is no team with such id!' });
+          });
+          it('Retorna o status 404 caso id do time seja inexistente', async () => {
+            const response = await chai.request(app).post('/matches').send(mockNonexistentTeam).set('authorization', tokenString);
+            expect(response.status).to.equal(404);
+          });
         });
       });
     });

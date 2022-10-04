@@ -38,6 +38,7 @@ class MatchesServices {
     if (teamExists.length !== 2) throw new HttpValidateError(404, 'There is no team with such id!');
 
     const newMatche = await this.matche.create({ ...match, inProgress: true });
+
     return newMatche;
   }
 
