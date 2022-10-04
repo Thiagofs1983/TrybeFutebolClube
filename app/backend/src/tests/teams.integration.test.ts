@@ -1,7 +1,5 @@
 import * as Sinon from 'sinon';
 import * as chai from 'chai';
-import * as bcrypt from 'bcryptjs';
-import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -13,11 +11,6 @@ import { Response } from 'superagent';
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
-const reqLogin = {
-  email: "users@user.com",
-  password: "1234567"
-}
 
 const mockTeams = [
   {
