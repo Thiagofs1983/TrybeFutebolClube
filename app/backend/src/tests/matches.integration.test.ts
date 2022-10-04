@@ -108,7 +108,7 @@ const mockTeams = [
   },
 ]
 
-const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
+const tokenString = 'yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /matches', () => {
   describe('GET', () => {
@@ -176,7 +176,8 @@ describe('teste da rota /matches', () => {
 
       describe('Caso NÂO haja sucesso', () => {
         before(() => {
-          // Sinon.stub(jwt, 'verify').resolves(true);
+          Sinon.stub(jwt, 'sign').returns(tokenString as any);
+          Sinon.stub(jwt, 'verify').rejects();
           Sinon.stub(Team, 'findAll').resolves(mockTeams as Team[]);
           Sinon.stub(Matche, 'create').resolves(mockNewMatch as Matche);
         });
@@ -185,12 +186,20 @@ describe('teste da rota /matches', () => {
           Sinon.restore();
         });
 
-        it('Retorna a mensagem de erro "Token not found"', async () => {
+        it('Retorna a mensagem de erro "Token not found" caso não haja token', async () => {
           const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
           expect(response.body).to.deep.equal({ message: 'Token not found' });
         });
-        it('Retorna o status 201', async () => {
+        it('Retorna o status 401 caso não haja um token', async () => {
           const response = await chai.request(app).post('/matches').send(mockSendNewMatch);
+          expect(response.status).to.equal(401);
+        });
+        it('Retorna a mensagem de erro "Token must be a valid token" caso o token não seja válido', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
+          expect(response.body).to.deep.equal({ message: 'Token must be a valid token' });
+        });
+        it('Retorna o status 401 caso o token não seja válido', async () => {
+          const response = await chai.request(app).post('/matches').send(mockSendNewMatch).set('authorization', 'tokenString');
           expect(response.status).to.equal(401);
         });
       });
