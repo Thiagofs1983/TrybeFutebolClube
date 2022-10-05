@@ -1,22 +1,20 @@
 import { Request, Response } from 'express';
-import LeaderboardAwayServices from '../services/leaderboard.away.services';
-import LeaderboardHomeServices from '../services/leaderboard.home.services';
+import LeaderboardFilterServices from '../services/leaderboard.home.away.services';
 import LeaderboardServices from '../services/leaderboard.services ';
 
 class LeaderboardControllers {
   constructor(
-    private leaderboardsHome = new LeaderboardHomeServices(),
-    private leaderboardsAway = new LeaderboardAwayServices(),
+    private leaderboardsFilter = new LeaderboardFilterServices(),
     private leaderboards = new LeaderboardServices(),
   ) { }
 
   public leaderboardHome = async (req: Request, res: Response) => {
-    const result = await this.leaderboardsHome.leaderboardHome();
+    const result = await this.leaderboardsFilter.leaderboard('homeTeam');
     res.status(200).json(result);
   };
 
   public leaderboardAway = async (req: Request, res: Response) => {
-    const result = await this.leaderboardsAway.leaderboardAway();
+    const result = await this.leaderboardsFilter.leaderboard('awayTeam');
     res.status(200).json(result);
   };
 
