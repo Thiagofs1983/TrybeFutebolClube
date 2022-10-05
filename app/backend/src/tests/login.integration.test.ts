@@ -32,6 +32,14 @@ const token = {
   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ"
 }
 
+const mockValidate = {
+  "id": 2,
+  "username": "User",
+  "role": "user",
+  "email": "user@user.com",
+  "password": "$2a$08$Y8Abi8jXvsXyqm"
+}
+
 const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /login', () => {
@@ -88,28 +96,21 @@ describe('teste da rota /login', () => {
     });
   });
 });
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
 
-  // let chaiHttpResponse: Response;
-
-  // before(async () => {
-  //   sinon
-  //     .stub(Example, "findOne")
-  //     .resolves({
-  //       ...<Seu mock>
-  //     } as Example);
-  // });
-
-  // after(()=>{
-  //   (Example.findOne as sinon.SinonStub).restore();
-  // })
-
-  // it('...', async () => {
-  //   chaiHttpResponse = await chai
-  //      .request(app)
-  //      ...
-
-  //   expect(...)
-  // });
+describe('Teste da rota /login/validate', () => {
+  describe('GET', () => {
+    describe('Caso haja sucesso', () => {
+      before(() => {
+        Sinon.stub(User, 'findOne').resolves(mockValidate as any);
+      });
+      after(() => {
+        Sinon.restore();
+      });
+      it('Autoriza o acesso e retorna o tipo de usuário na mensagem', async () => {
+        const response = await chai.request(app).get('/login/validate').set('authorization', tokenString);
+        expect(response.status).to.equal(200);
+        expect(response.body).to.deep.equal({ role: 'user' });
+      });
+    });
+  });
+});
