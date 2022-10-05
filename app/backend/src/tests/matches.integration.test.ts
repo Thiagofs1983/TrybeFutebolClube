@@ -3,16 +3,10 @@ import * as chai from 'chai';
 import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
-
 import { app } from '../app';
 import Matche from '../database/models/matche';
-// import { IUser } from '../interfaces'
-
 import { Response } from 'superagent';
-import tokenValidation from '../middlewares/auth';
-import { request } from 'express';
 import Team from '../database/models/team';
-import { error } from 'console';
 
 chai.use(chaiHttp);
 
