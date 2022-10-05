@@ -3,12 +3,12 @@ import tokenValidation from '../middlewares/auth';
 import UserController from '../controllers/user.controllers';
 import TeamsControllers from '../controllers/teams.controllers';
 import MatchesControllers from '../controllers/matches.controllers';
-import LeaderboardHomeControllers from '../controllers/leaderboard.controllers';
+import LeaderboardControllers from '../controllers/leaderboard.controllers';
 
 const userController = new UserController();
 const teamsController = new TeamsControllers();
 const matchesController = new MatchesControllers();
-const leaderboardsHomeController = new LeaderboardHomeControllers();
+const leaderboardsController = new LeaderboardControllers();
 
 const router = Router();
 
@@ -23,7 +23,8 @@ router.post('/matches', tokenValidation, matchesController.createNewMatche);
 router.patch('/matches/:id/finish', matchesController.updateInProgress);
 router.patch('/matches/:id', matchesController.updateMaches);
 
-router.get('/leaderboard/home', leaderboardsHomeController.leaderboardHome);
-router.get('/leaderboard/away', leaderboardsHomeController.leaderboardAway);
+router.get('/leaderboard/home', leaderboardsController.leaderboardHome);
+router.get('/leaderboard/away', leaderboardsController.leaderboardAway);
+router.get('/leaderboard', leaderboardsController.leaderboard);
 
 export default router;
