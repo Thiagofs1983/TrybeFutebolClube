@@ -84,35 +84,15 @@ class Leaderboards {
   }
 
   public goalsBalance(team: Team) {
-    let goalsFavor = 0;
-    let goalsOwn = 0;
-    this.matchesFilter.forEach((match) => {
-      if (team.id === match.awayTeam
-        && match.awayTeam === team.id) goalsFavor += match.awayTeamGoals;
-      if (team.id === match.homeTeam
-        && match.homeTeam === team.id) goalsFavor += match.homeTeamGoals;
-    });
-    this.matchesFilter.forEach((match) => {
-      if (team.id === match.awayTeam
-        && match.awayTeam === team.id) goalsOwn += match.homeTeamGoals;
-      if (team.id === match.homeTeam
-        && match.homeTeam === team.id) goalsOwn += match.awayTeamGoals;
-    });
+    const goalsFavor = this.goalsFavor(team);
+    const goalsOwn = this.goalsOwn(team);
     const total = goalsFavor - goalsOwn;
     return total;
   }
 
   public efficiency(team: Team) {
-    // P/(J*3)*100
     const points = this.totalPoints(team);
     const games = this.totalGames(team);
-    /* this.matchesFilter.forEach((match) => {
-      if (match.homeTeamGoals < match.awayTeamGoals) points += 3;
-      if (match.homeTeamGoals === match.awayTeamGoals) points += 1;
-    }); */
-    /* this.matchesFilter.forEach((match) => {
-      if (match.awayTeam === team.id) games += 1;
-    }); */
     return ((points / (games * 3)) * 100).toFixed(2);
   }
 }
