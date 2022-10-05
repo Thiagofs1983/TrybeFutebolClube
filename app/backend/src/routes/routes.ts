@@ -3,7 +3,7 @@ import tokenValidation from '../middlewares/auth';
 import UserController from '../controllers/user.controllers';
 import TeamsControllers from '../controllers/teams.controllers';
 import MatchesControllers from '../controllers/matches.controllers';
-import LeaderboardHomeControllers from '../controllers/leaderboard.home.controllers';
+import LeaderboardHomeControllers from '../controllers/leaderboard.controllers';
 
 const userController = new UserController();
 const teamsController = new TeamsControllers();
