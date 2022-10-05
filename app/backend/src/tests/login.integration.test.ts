@@ -112,5 +112,19 @@ describe('Teste da rota /login/validate', () => {
         expect(response.body).to.deep.equal({ role: 'user' });
       });
     });
+
+    describe('Caso NÃO haja sucesso', () => {
+      before(() => {
+        Sinon.stub(User, 'findOne').resolves(undefined);
+      });
+      after(() => {
+        Sinon.restore();
+      });
+      it('Retorna a mensagem "User not found" com o status 401', async () => {
+        const response = await chai.request(app).get('/login/validate').set('authorization', tokenString);
+        expect(response.status).to.equal(401);
+        expect(response.body).to.deep.equal({ message: 'User not found' });
+      });
+    });
   });
 });
