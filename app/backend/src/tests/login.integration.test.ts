@@ -7,40 +7,14 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import User from '../database/models/user';
-// import { IUser } from '../interfaces'
 
 import { Response } from 'superagent';
+import { token, tokenString } from './mock/token.mock';
+import { mockUser, mockValidate, reqLogin } from './mock/user.mock';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
-const reqLogin = {
-  email: "users@user.com",
-  password: "1234567"
-}
-
-const mockUser = {
-  id: 1,
-  email: "users@user.com",
-  password: "1234567",
-  username: 'Usuario1',
-  role: 'usuario'
-}
-
-const token = {
-  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ"
-}
-
-const mockValidate = {
-  "id": 2,
-  "username": "User",
-  "role": "user",
-  "email": "user@user.com",
-  "password": "$2a$08$Y8Abi8jXvsXyqm"
-}
-
-const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /login', () => {
   describe('POST', () => {
