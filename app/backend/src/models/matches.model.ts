@@ -3,6 +3,7 @@ import Team from '../database/models/team';
 import Matche from '../database/models/matche';
 import { IMatches, ISimpleMatches } from '../interfaces';
 import CustomError from '../errors/custom.erros';
+import 'express-async-errors';
 
 class MatchModel {
   constructor(private match = Matche, private team = Team) { }
@@ -32,7 +33,7 @@ class MatchModel {
   public async findAllCreate(match: IMatches) {
     const teamExists = await this.team
       .findAll({ where: { [Op.or]: [{ id: match.homeTeam }, { id: match.awayTeam }] } });
-    if (teamExists.length !== 2) throw new CustomError(404, 'There is no team with such id!');
+    return teamExists;
   }
 
   public async createNewMatche(match: IMatches) {

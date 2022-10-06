@@ -7,126 +7,13 @@ import { app } from '../app';
 import Matche from '../database/models/matche';
 import { Response } from 'superagent';
 import Team from '../database/models/team';
+import { tokenString } from './mock/token.mock';
+import { mockEqualTeams, mockNonexistentTeam, mockTeams } from './mock/team.mock';
+import { mockMatches, mockMatchesFinsh, mockNewMatch, mockSendNewMatch, mockUpdate } from './mock/match.mock';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
-
-const mockMatches = [
-  {
-    id: 1,
-    homeTeam: 16,
-    homeTeamGoals: 1,
-    awayTeam: 8,
-    awayTeamGoals: 1,
-    inProgress: false,
-    teamHome: {
-      teamName: "São Paulo"
-    },
-    teamAway: {
-      teamName: "Grêmio"
-    }
-  },
-  {
-    id: 2,
-    homeTeam: 9,
-    homeTeamGoals: 1,
-    awayTeam: 14,
-    awayTeamGoals: 1,
-    inProgress: true,
-    teamHome: {
-      teamName: "Internacional"
-    },
-    teamAway: {
-      teamName: "Santos"
-    }
-  },
-];
-
-const mockMatchesFinsh = [
-  {
-    id: 1,
-    homeTeam: 16,
-    homeTeamGoals: 1,
-    awayTeam: 8,
-    awayTeamGoals: 1,
-    inProgress: false,
-    teamHome: {
-      teamName: "São Paulo"
-    },
-    teamAway: {
-      teamName: "Grêmio"
-    }
-  },
-  {
-    id: 2,
-    homeTeam: 9,
-    homeTeamGoals: 1,
-    awayTeam: 14,
-    awayTeamGoals: 1,
-    inProgress: false,
-    teamHome: {
-      teamName: "Internacional"
-    },
-    teamAway: {
-      teamName: "Santos"
-    }
-  },
-];
-
-const mockSendNewMatch = {
-  homeTeam: 16,
-  awayTeam: 8,
-  homeTeamGoals: 2,
-  awayTeamGoals: 2,
-  inProgress: true 
-};
-
-const mockNewMatch = {
-  id: 1,
-  homeTeam: 16,
-  homeTeamGoals: 1,
-  awayTeam: 8,
-  awayTeamGoals: 1,
-  inProgress: true,
-}
-
-const mockTeams = [
-  {
-    id: 1,
-    teamName: "Atletico Mineiro",
-  },
-  {
-    id: 2,
-    teamName: "Qualquer outro",
-  },
-]
-
-const mockEqualTeams = {
-  id: 1,
-  homeTeam: 1,
-  homeTeamGoals: 1,
-  awayTeam: 1,
-  awayTeamGoals: 1,
-  inProgress: true,
-}
-
-const mockNonexistentTeam = {
-  id: 1,
-  homeTeam: 1,
-  homeTeamGoals: 1111,
-  awayTeam: 13,
-  awayTeamGoals: 1,
-  inProgress: true,
-}
-
-const mockUpdate = {
-  homeTeamGoals: 3,
-  awayTeamGoals: 1
-}
-
-const tokenString = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoidXNlcnNAdXNlci5jb20iLCJpYXQiOjE2NjQ1NDQ3NjcsImV4cCI6MTY2NTA2MzE2N30.2ngGmrxlskGN5QGW0o7nJZxCq5XdjjQMPVN9OlJTEWQ';
 
 describe('teste da rota /matches', () => {
   describe('GET', () => {

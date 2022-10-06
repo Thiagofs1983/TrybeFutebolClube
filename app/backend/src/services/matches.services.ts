@@ -1,6 +1,7 @@
 import { IMatches, ISimpleMatches } from '../interfaces';
 import Matches from '../entities/Matches';
 import MatchModel from '../models/matches.model';
+import CustomError from '../errors/custom.erros';
 
 class MatchesServices {
   constructor(private match = new MatchModel()) { }
@@ -17,7 +18,8 @@ class MatchesServices {
 
   public async createNewMatche(matche: IMatches): Promise<IMatches> {
     const { match } = new Matches(matche);
-    this.match.findAllCreate(match);
+    const teamExists = await this.match.findAllCreate(match);
+    if (teamExists.length < 2) throw new CustomError(404, 'There is no team with such id!');
 
     const newMatche = await this.match.createNewMatche(match);
 

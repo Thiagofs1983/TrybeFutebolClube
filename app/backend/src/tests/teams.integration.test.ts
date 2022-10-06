@@ -7,21 +7,11 @@ import { app } from '../app';
 import Team from '../database/models/team';
 
 import { Response } from 'superagent';
+import { mockTeams } from './mock/team.mock';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
-const mockTeams = [
-  {
-    id: 1,
-    teamName: "Atletico Mineiro",
-  },
-  {
-    id: 2,
-    teamName: "Qualquer outro",
-  },
-]
 
 describe('teste da rota /teams', () => {
   describe('GET', () => {
