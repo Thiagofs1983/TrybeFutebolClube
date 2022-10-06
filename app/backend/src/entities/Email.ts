@@ -1,4 +1,4 @@
-import HttpValidateError from '../errors/validation.erros';
+import CustomError from '../errors/custom.erros';
 
 export default class Email {
   private _value: string;
@@ -13,10 +13,10 @@ export default class Email {
     const emailRegex = /\S+@\S+\.\S+/;
 
     if (!email) {
-      throw new HttpValidateError(400, 'All fields must be filled');
+      throw new CustomError(400, 'All fields must be filled');
     }
     if (!emailRegex.test(email)) {
-      throw new HttpValidateError(400, '"email" must be a valid email');
+      throw new CustomError(400, '"email" must be a valid email');
     }
   }
 

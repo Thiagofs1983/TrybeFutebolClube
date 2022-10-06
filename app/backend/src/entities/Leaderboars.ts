@@ -1,14 +1,13 @@
-import Team from '../database/models/team';
-import Matche from '../database/models/matche';
+import { IMatches, ITeam } from '../interfaces';
 
 class Leaderboards {
-  private matchesFilter: Matche[];
+  private matchesFilter: IMatches[];
 
-  constructor(matchesFilter: Matche[]) {
+  constructor(matchesFilter: IMatches[]) {
     this.matchesFilter = matchesFilter;
   }
 
-  public totalPoints(team: Team) {
+  public totalPoints(team: ITeam) {
     let points = 0;
     this.matchesFilter.forEach((match) => {
       if (team.id === match.homeTeam) {
@@ -23,7 +22,7 @@ class Leaderboards {
     return points;
   }
 
-  public totalGames(team: Team) {
+  public totalGames(team: ITeam) {
     let games = 0;
     this.matchesFilter.forEach((match) => {
       if (match.awayTeam === team.id || match.homeTeam === team.id) games += 1;
@@ -31,7 +30,7 @@ class Leaderboards {
     return games;
   }
 
-  public totalVictories(team: Team) {
+  public totalVictories(team: ITeam) {
     let victories = 0;
     this.matchesFilter.forEach((match) => {
       if (team.id === match.awayTeam
@@ -50,7 +49,7 @@ class Leaderboards {
     return draws;
   }
 
-  public totalLosses(team: Team) {
+  public totalLosses(team: ITeam) {
     let losses = 0;
     this.matchesFilter.forEach((match) => {
       if (team.id === match.awayTeam
@@ -61,7 +60,7 @@ class Leaderboards {
     return losses;
   }
 
-  public goalsFavor(team: Team) {
+  public goalsFavor(team: ITeam) {
     let goals = 0;
     this.matchesFilter.forEach((match) => {
       if (team.id === match.awayTeam
@@ -72,7 +71,7 @@ class Leaderboards {
     return goals;
   }
 
-  public goalsOwn(team: Team) {
+  public goalsOwn(team: ITeam) {
     let goals = 0;
     this.matchesFilter.forEach((match) => {
       if (team.id === match.awayTeam
@@ -83,14 +82,14 @@ class Leaderboards {
     return goals;
   }
 
-  public goalsBalance(team: Team) {
+  public goalsBalance(team: ITeam) {
     const goalsFavor = this.goalsFavor(team);
     const goalsOwn = this.goalsOwn(team);
     const total = goalsFavor - goalsOwn;
     return total;
   }
 
-  public efficiency(team: Team) {
+  public efficiency(team: ITeam) {
     const points = this.totalPoints(team);
     const games = this.totalGames(team);
     return ((points / (games * 3)) * 100).toFixed(2);

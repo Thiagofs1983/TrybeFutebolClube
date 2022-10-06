@@ -3,12 +3,12 @@ import { JwtPayload } from 'jsonwebtoken';
 import Email from '../entities/Email';
 import Password from '../entities/Password';
 import { Ilogin, IUser } from '../interfaces';
-import HttpValidateError from '../errors/validation.erros';
+import CustomError from '../errors/custom.erros';
 import generateToken from '../utils/generateToken';
 import UserModel from '../models/user.model';
 
 class UserServices {
-  user = new UserModel();
+  constructor(private user = new UserModel()) { }
 
   public async loginService(login: Ilogin): Promise<string> {
     const { email, password } = login;
@@ -17,7 +17,7 @@ class UserServices {
     const user = await this.user.findOneLogin(login);
 
     if (!bcrypt.compareSync(passwordValidate, user.password)) {
-      throw new HttpValidateError(401, 'Incorrect email or password');
+      throw new CustomError(401, 'Incorrect email or password');
     }
     const token = generateToken(emailValidate);
     return token;

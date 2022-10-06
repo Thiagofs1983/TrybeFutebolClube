@@ -4,8 +4,7 @@ import MatchesServices from './matches.services';
 import Leaderboards from '../entities/Leaderboars';
 
 class LeaderboardServices {
-  private teams = new TeamsServices();
-  private matches = new MatchesServices();
+  constructor(private teams = new TeamsServices(), private matches = new MatchesServices()) { }
 
   private async generateStatistic(): Promise<IStatistic[]> {
     const matchesH = await this.matches.matchesInProgress(false); // Recebe apenas partidas que ja finalizaram

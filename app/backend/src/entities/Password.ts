@@ -1,4 +1,4 @@
-import HttpValidateError from '../errors/validation.erros';
+import CustomError from '../errors/custom.erros';
 
 export default class Password {
   private _value: string;
@@ -12,10 +12,10 @@ export default class Password {
     const isPasswordValid = this._value;
 
     if (!isPasswordValid) {
-      throw new HttpValidateError(400, 'All fields must be filled');
+      throw new CustomError(400, 'All fields must be filled');
     }
     if (isPasswordValid.length <= 6) {
-      throw new HttpValidateError(400, '"password" length must be at least 7 characters long');
+      throw new CustomError(400, '"password" length must be at least 7 characters long');
     }
   }
 
