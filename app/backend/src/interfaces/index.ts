@@ -14,6 +14,11 @@ export interface IUser {
   password?: string;
 }
 
+export interface ITeam {
+  id: number;
+  teamName: string;
+}
+
 export interface IRequest extends Request {
   email?: string | JwtPayload;
 }

@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import Team from '../database/models/team';
 import Matche from '../database/models/matche';
 import { IMatches, ISimpleMatches } from '../interfaces';
-import HttpValidateError from '../errors/validation.erros';
+import CustomError from '../errors/custom.erros';
 import Matches from '../entities/Matches';
 
 class MatchesServices {
@@ -35,7 +35,7 @@ class MatchesServices {
     const { match } = new Matches(matche);
     const teamExists = await this.team
       .findAll({ where: { [Op.or]: [{ id: match.homeTeam }, { id: match.awayTeam }] } });
-    if (teamExists.length !== 2) throw new HttpValidateError(404, 'There is no team with such id!');
+    if (teamExists.length !== 2) throw new CustomError(404, 'There is no team with such id!');
 
     const newMatche = await this.matche.create({ ...match, inProgress: true });
 
@@ -47,7 +47,7 @@ class MatchesServices {
       { inProgress: false },
       { where: { id } },
     );
-    if (matche === 0) throw new HttpValidateError(400, 'It is not possible to update a match');
+    if (matche === 0) throw new CustomError(400, 'It is not possible to update a match');
   }
 
   public async updateMatches(date: ISimpleMatches, id: number): Promise<void> {
@@ -55,7 +55,7 @@ class MatchesServices {
       { awayTeamGoals: date.awayTeamGoals, homeTeamGoals: date.homeTeamGoals },
       { where: { id } },
     );
-    if (match === 0) throw new HttpValidateError(400, 'It is not possible to update a match');
+    if (match === 0) throw new CustomError(400, 'It is not possible to update a match');
   }
 }
 

@@ -1,7 +1,7 @@
 import { NextFunction, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { IRequest } from '../interfaces';
-import HttpValidateError from '../errors/validation.erros';
+import CustomError from '../errors/custom.erros';
 import 'dotenv/config';
 
 const SECRET = process.env.JWT_SECRET;
@@ -10,7 +10,7 @@ const tokenValidation = (req: IRequest, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    throw new HttpValidateError(401, 'Token not found');
+    throw new CustomError(401, 'Token not found');
   }
 
   try {
@@ -20,7 +20,7 @@ const tokenValidation = (req: IRequest, res: Response, next: NextFunction) => {
       next();
     }
   } catch (error) {
-    throw new HttpValidateError(401, 'Token must be a valid token');
+    throw new CustomError(401, 'Token must be a valid token');
   }
 };
 
