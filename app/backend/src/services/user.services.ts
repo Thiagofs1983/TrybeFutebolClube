@@ -8,7 +8,7 @@ import generateToken from '../utils/generateToken';
 import UserModel from '../models/user.model';
 
 class UserServices {
-  user = new UserModel();
+  constructor(private user = new UserModel()) { }
 
   public async loginService(login: Ilogin): Promise<string> {
     const { email, password } = login;
