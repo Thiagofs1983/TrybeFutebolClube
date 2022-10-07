@@ -19,18 +19,18 @@ Back-end:
 
 > Backend
 ```bash
-git clone git@github.com:Thiagofs1983/TrybeFutebolClube.git
-cd TrybeFutebolClube/ 
-npm install
+  git clone git@github.com:Thiagofs1983/TrybeFutebolClube.git
+  cd TrybeFutebolClube/ 
+  npm install
 ``` 
 
 ## Executando aplicação
 
-Para rodar a aplicação você vai precisar ter o [Docker](https://docs.docker.com/engine/install/ubuntu/) instalado usando os comandos no terminal:
+Para rodar a aplicação você vai precisar ter o [Docker](https://docs.docker.com/engine/install/ubuntu/) instalado e usar os seguintes comandos no terminal:
 
 ```
-cd app/
-npm run compose:up
+  cd app/
+  npm run compose:up
 ```
 
 * Para rodar o back-end:
@@ -50,8 +50,13 @@ npm run compose:up
 
 * Para rodar todos os testes:
 
-  Para executar os testes de cobertura do back-end, basta rodar o comando abaixo a partir da raiz do projeto:
+  Para executar os testes de cobertura do back-end, entre na pasta `backend` rodando o seguinte comando no terminal a partir da raiz do projeto:
 
   ```
-    cd app/backend/ && npm run test:coverage
+    cd app/backend/
+  ```
+  Renomeie o arquivo `.env.example` para `.env` e rode o comando abaixo:
+  
+  ```
+    npm run test:coverage
   ```
