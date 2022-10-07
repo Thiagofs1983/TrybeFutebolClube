@@ -45,7 +45,7 @@ Para rodar a aplicação você vai precisar ter o [Docker](https://docs.docker.c
   ```
     cd app/frontend/ && npm start
   ```
-  Você pode fazer o login na aplicação com o perfil de USUÁRIO comum e ter acesso a classificação geral ou filtrada por jogos em casa e fora, jogos finalizados e jogos em andamento usando o email `user@user.com` e senha `secret_user`.
+  Você pode fazer o login na aplicação com o perfil de USUÁRIO comum e ter acesso a classificação geral ou filtrada por jogos em casa e fora, jogos finalizados e em andamento usando o email `user@user.com` e senha `secret_user`.
   
   Você pode ainda fazer o login na aplicação com o perfil de ADMINISTRADOR, ter os mesmos acessos de USUÁRIO, além de poder acrescentar um novo jogo e editar o placar de jogos em andamento, usando o email `admin@admin.com` e senha `secret_admin`.
 
