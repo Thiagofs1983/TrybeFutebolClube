@@ -33,12 +33,12 @@ Para rodar a aplicação você vai precisar ter o [Docker](https://docs.docker.c
   npm run compose:up
 ```
 
-* Para rodar o back-end:
+### Para rodar o back-end:
 
   Para realizar as requisições em back-end, você pode usar a extensão [Thunder Client](https://www.thunderclient.com/) do VSCode ou pode usar os clientes HTTP [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/).
   
 
-* Para rodar o front-end:
+### Para rodar o front-end:
 
   Para rodar o front-end que consome a API desenvolvida basta executar o comando abaixo a partir da raiz do projeto:
 
