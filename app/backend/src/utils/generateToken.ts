@@ -1,11 +1,15 @@
 import * as jwt from 'jsonwebtoken';
-import 'dotenv';
+import 'dotenv/config';
+import CustomError from '../errors/custom.erros';
 
-const SECRET = process.env.JWT_SECRET || 'jwt_secret';
+const SECRET = process.env.JWT_SECRET;
 
 const generateToken = (payload: string): string => {
-  const token = jwt.sign({ payload }, SECRET, { algorithm: 'HS256', expiresIn: '6d' });
-  return token;
+  if (SECRET) {
+    const token = jwt.sign({ payload }, SECRET, { algorithm: 'HS256', expiresIn: '6d' });
+    return token;
+  }
+  throw new CustomError(404, 'Secret key required');
 };
 
 export default generateToken;
