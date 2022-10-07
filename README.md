@@ -7,7 +7,7 @@ O `TFC` é um site informativo sobre partidas e classificações de futebol! ⚽
 
   Para adicionar uma partida é necessário ter um _token_, portanto a pessoa deverá estar logada para fazer as alterações. Temos um relacionamento entre as tabelas `teams` e `matches` para fazer as atualizações das partidas.
 
-  O seu back-end deve implementar regras de negócio para popular adequadamente a tabela disponível no front-end que será exibida para a pessoa usuária do sistema.
+  O back-end implementa as regras de negócio para popular adequadamente a tabela disponível no front-end que será exibida para a pessoa usuária do sistema.
 
 ## Técnologias usadas
 
