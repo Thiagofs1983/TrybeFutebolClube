@@ -53,13 +53,13 @@ Para rodar a aplicação você vai precisar ter o [Docker](https://docs.docker.c
 
 * Para rodar todos os testes:
 
-  Para executar os testes de cobertura do back-end, entre na pasta `backend` rodando o seguinte comando no terminal a partir da raiz do projeto:
+Para executar os testes de cobertura do back-end, entre na pasta `backend` rodando o seguinte comando no terminal a partir da raiz do projeto:
 
-  ```
-    cd app/backend/
-  ```
-  Renomeie o arquivo `.env.example` para `.env` e rode o comando abaixo:
-  
-  ```
-    npm run test:coverage
-  ```
+```
+  cd app/backend/
+```
+Renomeie o arquivo `.env.example` para `.env` e rode o comando abaixo:
+
+```
+  npm run test:coverage
+```
