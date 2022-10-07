@@ -3,7 +3,7 @@
 # Contexto
 O `TFC` é um site informativo sobre partidas e classificações de futebol! ⚽️
 
-  Foi desenvolvido **um back-end dockerizado utilizando modelagem de dados através do Sequelize**, respeitando as **regras de negócio** providas no projeto e **a API deve ser capaz de ser consumida por um front-end já provido nesse projeto**.
+  Foi desenvolvido **um back-end dockerizado utilizando modelagem de dados através do Sequelize**, respeitando as **regras de negócio** providas no projeto e **a API deve ser capaz de ser consumida por um front-end já provido pela Trybe nesse projeto**.
 
   Para adicionar uma partida é necessário ter um _token_, portanto a pessoa deverá estar logada para fazer as alterações. Temos um relacionamento entre as tabelas `teams` e `matches` para fazer as atualizações das partidas.
 
