@@ -124,3 +124,4 @@ Renomeie o arquivo `.env.example` para `.env` e rode o comando abaixo:
 ```
   npm run test:coverage
 ```
+[<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="linkedin" height='30'>](https://www.linkedin.com/in/fsthiago/)
