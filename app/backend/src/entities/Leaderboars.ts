@@ -1,7 +1,7 @@
-import { IMatches, ITeam } from '../interfaces';
+import { ILeaderboard, IMatches, ITeam } from '../interfaces';
 
-class Leaderboards {
-  private matchesFilter: IMatches[];
+class Leaderboards implements ILeaderboard {
+  public matchesFilter: IMatches[];
 
   constructor(matchesFilter: IMatches[]) {
     this.matchesFilter = matchesFilter;

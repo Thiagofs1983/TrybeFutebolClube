@@ -47,3 +47,15 @@ export interface IStatistic {
   goalsBalance: number,
   efficiency: string,
 }
+export interface ILeaderboard {
+  matchesFilter: IMatches[],
+  totalPoints(team: ITeam): number,
+  totalGames(team: ITeam): number,
+  totalVictories(team: ITeam): number,
+  totalDraws(): number,
+  totalLosses(team: ITeam): number,
+  goalsFavor(team: ITeam): number,
+  goalsOwn(team: ITeam): number,
+  goalsBalance(team: ITeam): number,
+  efficiency(team: ITeam): string,
+}
